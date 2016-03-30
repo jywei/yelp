@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-3">
+  <div class="col-md-4">
     <%= image_tag @restaurant.image_url %>
 
     <h2>
@@ -24,12 +24,12 @@
     <%= link_to "Write Reviews", new_restaurant_review_path(@restaurant), class: "btn btn-primary" %>
   </div>
 
-  <div class="col-md-9">
+  <div class="col-md-8">
     <% if @reviews.blank? %>
       <h3>No reviews yet, add one now!</h3>
     <% else %>
       <% @reviews.each do |review| %>
-        <p><%= review.rating %></p>
+        <div class="star-rating" data-score= <%= review.rating %>></div>
         <p><%= review.comment %></p>
       <% end %>
     <% end %>
@@ -39,3 +39,13 @@
 
 <%= link_to 'Edit', edit_restaurant_path(@restaurant), class: "btn btn-link" %> |
 <%= link_to 'Back', restaurants_path, class: "btn btn-link" %>
+
+<script>
+  $('.star-rating').raty({
+    path: 'https://s3-us-west-2.amazonaws.com/yelp-roy/stars',
+    readOnly: true,
+    score: function() {
+      return $(this).attr('data-score');
+    }
+  });
+</script>
